@@ -1,0 +1,37 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="cell small-12">
+                <h1>Travel Blog Posts</h1>
+            </div>
+
+            <!-- Loop through each post -->
+            {% for post in posts %}
+                <div class="cell small-12 medium-6 large-4">
+                    <div class="card">
+                        <div class="card-section">
+                            <!-- Post Title -->
+                            <h2><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></h2>
+                            
+                            <!-- Post Content Preview -->
+                            <p>{{ post.content|truncatewords:30 }}</p>
+                            
+                            <!-- Meta Information -->
+                            <p>Posted on {{ post.created_at|date:"F j, Y" }} by <strong>{{ post.author.username }}</strong></p>
+                            
+                            <!-- Categories -->
+                            <p>Categories: 
+                                {% for category in post.categories.all %}
+                                    <span class="label">{{ category.name }}</span>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

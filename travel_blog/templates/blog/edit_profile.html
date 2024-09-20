@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h1>Edit Profile</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="grid-container">
+            <div class="grid-x grid-padding-x">
+                <!-- Loop through the form fields -->
+                {% for field in form %}
+                    <div class="cell small-12">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}
+                            {{ field }}
+                        </label>
+                        <!-- Display errors if any -->
+                        {% if field.errors %}
+                            <p class="help-text" style="color: red;">{{ field.errors }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="grid-x grid-padding-x">
+            <div class="cell small-12 text-right">
+                <button type="submit" class="button primary">Save Changes</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

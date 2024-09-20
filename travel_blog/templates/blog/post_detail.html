@@ -1,0 +1,59 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <!-- Post Title and Meta Information -->
+            <div class="cell small-12">
+                <h1>{{ post.title }}</h1>
+                <p>By <strong>{{ post.author.username }}</strong> on {{ post.created_at }}</p>
+                <p><em>Location: {{ post.location }}</em></p>
+            </div>
+
+            <!-- Post Content and Image -->
+            <div class="cell small-12">
+                <p>{{ post.content }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Post Image" class="thumbnail">
+                {% endif %}
+            </div>
+
+            <!-- Likes Section -->
+            <div class="cell small-12">
+                <p>Total Likes: {{ total_likes }}</p>
+                {% if is_liked %}
+                    <a href="{% url 'like_post' post.slug %}" class="button alert">Unlike</a>
+                {% else %}
+                    <a href="{% url 'like_post' post.slug %}" class="button primary">Like</a>
+                {% endif %}
+            </div>
+
+            <!-- Comments Section -->
+            <div class="cell small-12">
+                <h2>Comments</h2>
+                {% if comments %}
+                    <ul class="no-bullet">
+                        {% for comment in comments %}
+                            <li>
+                                <p>{{ comment.content }}</p>
+                                <p><strong>By {{ comment.author.username }}</strong> on {{ comment.created_at }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No comments yet. Be the first to comment!</p>
+                {% endif %}
+            </div>
+
+            <!-- Add Comment Form -->
+            <div class="cell small-12">
+                <h3>Add a comment</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" class="button">Add Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

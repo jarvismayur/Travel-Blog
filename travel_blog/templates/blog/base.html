@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Travel Blog{% endblock %}</title>
+
+    <!-- Foundation CSS (via CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="top-bar">
+            <div class="top-bar-left">
+                <ul class="dropdown menu" data-dropdown-menu>
+                    <li class="menu-text">Travel Blog</li>
+                    <li><a href="{% url 'post_list' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'create_post' %}">New Post</a></li>
+                        <li><a href="{% url 'user_profile' user.username %}">Profile</a></li>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="button">Logout</button>
+                        </form>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        <li><a href="{% url 'signup' %}">Signup</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="grid-container">
+            {% block content %}
+            <!-- This is where the child templates will inject their content -->
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer class="grid-x align-center">
+        <div class="cell small-12 text-center">
+            <p>&copy; 2024 Travel Blog. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Foundation JS (via CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/js/foundation.min.js"></script>
+
+    <!-- Initialize Foundation -->
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+</html>

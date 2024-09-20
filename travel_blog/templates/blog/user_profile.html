@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="cell small-12">
+                {% if profile %}
+                    <h1>{{ profile.user.username }}'s Profile</h1>
+                    <div class="card">
+                        <div class="card-section">
+                            <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+                            <p><strong>Bio:</strong> {{ profile.bio }}</p>
+                            <p><strong>Website:</strong> <a href="{{ profile.website }}">{{ profile.website }}</a></p>
+                            <a href="{% url 'edit_profile' %}" class="button">Edit Profile</a>
+                        </div>
+                    </div>
+                {% elif user %}
+                    <h1>No Profile Found</h1>
+                    <p>Your profile is not set up. Please add a profile:</p>
+                    <a href="{% url 'add_profile' %}" class="button primary">Add Profile</a>
+                {% else %}
+                    <h1>Guest Profile</h1>
+                    <p>Please <a href="{% url 'login' %}">log in</a> to view your profile.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
